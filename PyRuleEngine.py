@@ -14,15 +14,23 @@ for i in range(len(__rules__)):
 __ruleregex__='|'.join(['%s%s' % (re.escape(a[0]), a[1:]) for a in __rules__])
 __ruleregex__=re.compile(__ruleregex__)
 
-functions={}
-functions[':']=lambda x, i: x
-functions['l']=lambda x, i: x.lower()
-functions['u']=lambda x, i: x.upper()
-functions['c']=lambda x, i: x.capitalize()
+functs={}
+functs[':']=lambda x, i: x
+functs['l']=lambda x, i: x.lower()
+functs['u']=lambda x, i: x.upper()
+functs['c']=lambda x, i: x.capitalize()
+functs['C']=lambda x, i: x.capitalize().swapcase()
+functs['t']=lambda x, i: x.swapcase()
+functs['T']=lambda x, i: x[0:int(i[1])]+x[int(i[1])].swapcase()+x[int(i[1])+1:]
+functs['r']=lambda x, i: x[::-1]
+functs['d']=lambda x, i: x+x
+functs['p']=lambda x, i: x*(int(i[1])+1)
 def InterpretRule(word, rule):
     for r in __ruleregex__.findall(rule):
         try:
-            word=functions[r[0]](word, r)
+            word=functs[r[0]](word, r)
+        except KeyError:
+            print('Unknown rule:', rule)
         except Exception as error:
-            print(error)
+            print(type(error),error)
     return word
