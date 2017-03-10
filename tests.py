@@ -5,8 +5,10 @@ class RuleTest(unittest.TestCase):
         self.assertEqual(IR('p@ssW0rd', ':'), 'p@ssW0rd')
     def test_lowercase(self):
         self.assertEqual(IR('p@ssW0rd', 'l'), 'p@ssw0rd')
-    def test_lowercase(self):
+    def test_uppercase(self):
         self.assertEqual(IR('p@ssW0rd', 'u'), 'P@SSW0RD')
+    def test_capitalize(self):
+        self.assertEqual(IR('p@ssW0rd', 'c'), 'P@ssw0rd')
 
 if __name__ == '__main__':
     unittest.main()
