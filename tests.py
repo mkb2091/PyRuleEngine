@@ -39,5 +39,19 @@ class RuleTest(unittest.TestCase):
         self.assertEqual(IR('p@ssW0rd', 'D3'), 'p@sW0rd')
     def test_extract_range(self):
         self.assertEqual(IR('p@ssW0rd', 'x04'), 'p@ss')
+    def test_omit_range(self):
+        self.assertEqual(IR('p@ssW0rd', 'O12'), 'psW0rd')
+    def test_insert(self):
+        self.assertEqual(IR('p@ssW0rd', 'i4!'), 'p@ss!W0rd')
+    def test_overwrite(self):
+        self.assertEqual(IR('p@ssW0rd', 'o3$'), 'p@s$W0rd')
+    def test_truncate_n(self):
+        self.assertEqual(IR('p@ssW0rd', "'6"), 'p@ssW0')
+    def test_replace(self):
+        self.assertEqual(IR('p@ssW0rd', 'ss$'), 'p@$$W0rd')
+    def test_purge(self):
+        self.assertEqual(IR('p@ssW0rd', '@s'), 'p@W0rd')
+    def test_duplicate_first_n(self):
+        self.assertEqual(IR('p@ssW0rd', 'z2'), 'ppp@ssW0rd')
 if __name__ == '__main__':
     unittest.main()
