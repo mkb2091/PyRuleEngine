@@ -1,11 +1,14 @@
 '''Library to implement hashcat style rule engine.'''
 import re
-#based on hashcat rules from
-#https://hashcat.net/wiki/doku.php?id=rule_based_attack
+# based on hashcat rules from
+# https://hashcat.net/wiki/doku.php?id=rule_based_attack
+
 
 def i36(string):
     '''Shorter way of converting base 36 string to integer'''
     return int(string, 36)
+
+
 def rule_regex_gen():
     ''''Generates regex to parse rules'''
     __rules__ = [
@@ -48,6 +51,8 @@ FUNCTS['@'] = lambda x, i: x.replace(i, '')
 FUNCTS['z'] = lambda x, i: x[0]*i36(i)+x
 FUNCTS['Z'] = lambda x, i: x+x[-1]*i36(i)
 FUNCTS['q'] = lambda x, i: ''.join([a*2 for a in x])
+
+
 class RuleEngine(object):
     '''
     Initiate with the rules you want to apply and then call .apply for each
@@ -66,6 +71,7 @@ class RuleEngine(object):
     '''
     def __init__(self, rules):
         self.rules = tuple(map(__ruleregex__.findall, rules))
+
     def apply(self, string):
         '''Apply saved rules to given string.'''
         for rule in self.rules:
@@ -76,6 +82,7 @@ class RuleEngine(object):
                 except IndexError:
                     pass
             yield word
+
     def change_rules(self, new_rules):
         '''Replace current rules with new_rules'''
         self.rules = tuple(map(__ruleregex__.findall, new_rules))
