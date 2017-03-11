@@ -1,6 +1,6 @@
 import unittest
 from PyRuleEngine import RuleEngine
-RULEENGINE=RuleEngine([])
+RULEENGINE = RuleEngine([])
 def IR(word, rule):
     RULEENGINE.change_rules([rule])
     return list(RULEENGINE.apply(word))[0]
