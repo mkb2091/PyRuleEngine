@@ -48,13 +48,39 @@ FUNCTS['@'] = lambda x, i: x.replace(i[1], '')
 FUNCTS['z'] = lambda x, i: x[0]*i36(i[1])+x
 FUNCTS['Z'] = lambda x, i: x+x[-1]*i36(i[1])
 FUNCTS['q'] = lambda x, i: ''.join([a*2 for a in x])
-def interpret_rule(word, rule):
-    '''Apply rule to given word'''
-    for function in __ruleregex__.findall(rule):
-        try:
-            word = FUNCTS[function[0]](word, function)
-        except KeyError:
-            print('Unknown rule:', function)
-        except IndexError:
-            pass
-    return word
+class RuleEngine(object):
+    '''
+    Initiate with the rules you want to apply and then call .apply for each string
+    you want to apply the rules to.
+    >>> engine=RuleEngine([':', '$1', 'ss$'])
+    >>> for i in engine.apply('password'):
+    ...        print(i)
+    password
+    password1
+    pa$$word
+    >>> for i in engine.apply('princess'):
+    ...        print(i)
+    princess
+    princess1
+    prince$$
+    '''
+    def __init__(self, rules):
+        self.rules = tuple(map(__ruleregex__.findall, rules))
+    def apply(self, string):
+        '''Apply saved rules to given string.'''
+        for rule in self.rules:
+            word = string
+            for function in rule:
+                try:
+                    word = FUNCTS[function[0]](word, function)
+                except IndexError:
+                    pass
+            yield word
+    def change_rules(self, new_rules):
+        '''Replace current rules with new_rules'''
+        self.rules = tuple(map(__ruleregex__.findall, new_rules))
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

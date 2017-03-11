@@ -1,5 +1,9 @@
 import unittest
-from PyRuleEngine import interpret_rule as IR
+from PyRuleEngine import RuleEngine
+RULEENGINE=RuleEngine([])
+def IR(word, rule):
+    RULEENGINE.change_rules([rule])
+    return list(RULEENGINE.apply(word))[0]
 class RuleTest(unittest.TestCase):
     def test_nothing(self):
         self.assertEqual(IR('p@ssW0rd', ':'), 'p@ssW0rd')
