@@ -29,6 +29,15 @@ FUNCTS['T'] = lambda x, i: x[0:i36(i[1])]+x[i36(i[1])].swapcase()+x[i36(i[1])+1:
 FUNCTS['r'] = lambda x, i: x[::-1]
 FUNCTS['d'] = lambda x, i: x+x
 FUNCTS['p'] = lambda x, i: x*(i36(i[1])+1)
+FUNCTS['f'] = lambda x, i: x+x[::-1]
+FUNCTS['{'] = lambda x, i: x[1:]+x[0]
+FUNCTS['}'] = lambda x, i: x[-1]+x[:-1]
+FUNCTS['$'] = lambda x, i: x+i[1]
+FUNCTS['^'] = lambda x, i: i[1]+x
+FUNCTS['['] = lambda x, i: x[1:]
+FUNCTS[']'] = lambda x, i: x[:-1]
+FUNCTS['D'] = lambda x, i: x[:int(i[1])-1]+x[int(i[1]):]
+FUNCTS['x'] = lambda x, i: x[int(i[1]):int(i[2])]
 def interpret_rule(word, rule):
     '''Apply rule to given word'''
     for function in __ruleregex__.findall(rule):
