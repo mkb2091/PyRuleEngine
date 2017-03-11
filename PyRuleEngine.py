@@ -26,32 +26,32 @@ FUNCTS['u'] = lambda x, i: x.upper()
 FUNCTS['c'] = lambda x, i: x.capitalize()
 FUNCTS['C'] = lambda x, i: x.capitalize().swapcase()
 FUNCTS['t'] = lambda x, i: x.swapcase()
-FUNCTS['T'] = lambda x, i: x[0:i36(i[1])]+x[i36(i[1])].swapcase()+x[i36(i[1])+1:]
+FUNCTS['T'] = lambda x, i: x[0:i36(i)]+x[i36(i)].swapcase()+x[i36(i)+1:]
 FUNCTS['r'] = lambda x, i: x[::-1]
 FUNCTS['d'] = lambda x, i: x+x
-FUNCTS['p'] = lambda x, i: x*(i36(i[1])+1)
+FUNCTS['p'] = lambda x, i: x*(i36(i)+1)
 FUNCTS['f'] = lambda x, i: x+x[::-1]
 FUNCTS['{'] = lambda x, i: x[1:]+x[0]
 FUNCTS['}'] = lambda x, i: x[-1]+x[:-1]
-FUNCTS['$'] = lambda x, i: x+i[1]
-FUNCTS['^'] = lambda x, i: i[1]+x
+FUNCTS['$'] = lambda x, i: x+i
+FUNCTS['^'] = lambda x, i: i+x
 FUNCTS['['] = lambda x, i: x[1:]
 FUNCTS[']'] = lambda x, i: x[:-1]
-FUNCTS['D'] = lambda x, i: x[:i36(i[1])-1]+x[i36(i[1]):]
-FUNCTS['x'] = lambda x, i: x[i36(i[1]):i36(i[2])]
-FUNCTS['O'] = lambda x, i: x[:i36(i[1])]+x[i36(i[2])+1:]
-FUNCTS['i'] = lambda x, i: x[:i36(i[1])]+i[2]+x[i36(i[1]):]
-FUNCTS['o'] = lambda x, i: x[:i36(i[1])]+i[2]+x[i36(i[1])+1:]
-FUNCTS["'"] = lambda x, i: x[:i36(i[1])]
-FUNCTS['s'] = lambda x, i: x.replace(i[1], i[2])
-FUNCTS['@'] = lambda x, i: x.replace(i[1], '')
-FUNCTS['z'] = lambda x, i: x[0]*i36(i[1])+x
-FUNCTS['Z'] = lambda x, i: x+x[-1]*i36(i[1])
+FUNCTS['D'] = lambda x, i: x[:i36(i)-1]+x[i36(i):]
+FUNCTS['x'] = lambda x, i: x[i36(i[0]):i36(i[1])]
+FUNCTS['O'] = lambda x, i: x[:i36(i[0])]+x[i36(i[1])+1:]
+FUNCTS['i'] = lambda x, i: x[:i36(i[0])]+i[1]+x[i36(i[0]):]
+FUNCTS['o'] = lambda x, i: x[:i36(i[0])]+i[1]+x[i36(i[0])+1:]
+FUNCTS["'"] = lambda x, i: x[:i36(i)]
+FUNCTS['s'] = lambda x, i: x.replace(i[0], i[1])
+FUNCTS['@'] = lambda x, i: x.replace(i, '')
+FUNCTS['z'] = lambda x, i: x[0]*i36(i)+x
+FUNCTS['Z'] = lambda x, i: x+x[-1]*i36(i)
 FUNCTS['q'] = lambda x, i: ''.join([a*2 for a in x])
 class RuleEngine(object):
     '''
-    Initiate with the rules you want to apply and then call .apply for each string
-    you want to apply the rules to.
+    Initiate with the rules you want to apply and then call .apply for each
+    string you want to apply the rules to.
     >>> engine=RuleEngine([':', '$1', 'ss$'])
     >>> for i in engine.apply('password'):
     ...        print(i)
@@ -72,7 +72,7 @@ class RuleEngine(object):
             word = string
             for function in rule:
                 try:
-                    word = FUNCTS[function[0]](word, function)
+                    word = FUNCTS[function[0]](word, function[1:])
                 except IndexError:
                     pass
             yield word
