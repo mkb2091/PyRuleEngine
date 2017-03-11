@@ -42,11 +42,11 @@ FUNCTS['x'] = lambda x, i: x[i36(i[1]):i36(i[2])]
 FUNCTS['O'] = lambda x, i: x[:i36(i[1])]+x[i36(i[2])+1:]
 FUNCTS['i'] = lambda x, i: x[:i36(i[1])]+i[2]+x[i36(i[1]):]
 FUNCTS['o'] = lambda x, i: x[:i36(i[1])]+i[2]+x[i36(i[1])+1:]
-FUNCTS["'"] = lambda x, i: x[:int(i[1])]
+FUNCTS["'"] = lambda x, i: x[:i36(i[1])]
 FUNCTS['s'] = lambda x, i: x.replace(i[1], i[2])
 FUNCTS['@'] = lambda x, i: x.replace(i[1], '')
-FUNCTS['z'] = lambda x, i: x[0]*int(i[1])+x
-FUNCTS['Z'] = lambda x, i: x+x[-1]*int(i[1])
+FUNCTS['z'] = lambda x, i: x[0]*i36(i[1])+x
+FUNCTS['Z'] = lambda x, i: x+x[-1]*i36(i[1])
 FUNCTS['q'] = lambda x, i: ''.join([a*2 for a in x])
 def interpret_rule(word, rule):
     '''Apply rule to given word'''
