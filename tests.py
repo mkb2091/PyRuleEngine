@@ -53,5 +53,9 @@ class RuleTest(unittest.TestCase):
         self.assertEqual(IR('p@ssW0rd', '@s'), 'p@W0rd')
     def test_duplicate_first_n(self):
         self.assertEqual(IR('p@ssW0rd', 'z2'), 'ppp@ssW0rd')
+    def test_duplicate_last_n(self):
+        self.assertEqual(IR('p@ssW0rd', 'Z2'), 'p@ssW0rddd')
+    def test_duplicate_all(self):
+        self.assertEqual(IR('p@ssW0rd', 'q'), 'pp@@ssssWW00rrdd')
 if __name__ == '__main__':
     unittest.main()
