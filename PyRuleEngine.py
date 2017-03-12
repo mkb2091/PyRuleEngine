@@ -57,7 +57,7 @@ __memorized__ = ['']
 
 
 def extract_memory(string, args):
-    ''''''
+    '''Insert section of stored string into current string'''
     pos, length, i = map(i36, args)
     string = list(string)
     string.insert(i, __memorized__[0][pos:pos+length])
@@ -68,6 +68,7 @@ FUNCTS['6'] = lambda x, i: __memorized__[0]+x
 
 
 def memorize(string, _):
+    ''''Store current string in memory'''
     __memorized__[0] = string
     return string
 FUNCTS['M'] = memorize
