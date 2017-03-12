@@ -4,7 +4,7 @@ on https://hashcat.net/wiki/doku.php?id=rule_based_attack
 '''
 import unittest
 from PyRuleEngine import RuleEngine
-RULEENGINE = RuleEngine([])
+RULEENGINE = RuleEngine()
 
 
 def apply(word, rule):
@@ -98,5 +98,18 @@ class RuleTest(unittest.TestCase):
 
     def test_duplicate_all(self):
         self.assertEqual(apply('p@ssW0rd', 'q'), 'pp@@ssssWW00rrdd')
+
+    def test_extract_memory(self):
+        self.assertEqual(apply('p@ssW0rd', 'lMX428'), 'p@ssw0rdw0')
+
+    def test_append_memory(self):
+        self.assertEqual(apply('p@ssW0rd', 'uMl4'), 'p@ssw0rdP@SSW0RD')
+
+    def test_prepend_memory(self):
+        self.assertEqual(apply('p@ssW0rd', 'rMr6'), 'dr0Wss@pp@ssW0rd')
+
+    def test_memorize(self):
+        self.assertEqual(apply('p@ssW0rd', 'lMuX084'), 'P@SSp@ssw0rdW0RD')
+
 if __name__ == '__main__':
     unittest.main()

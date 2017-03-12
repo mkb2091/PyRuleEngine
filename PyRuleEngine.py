@@ -16,6 +16,7 @@ def rule_regex_gen():
         '}', '$.', '^.', '[', ']', r'D\w', r'x\w\w', r'O\w\w', r'i\w.',
         r'o\w.', r"'\w", 's..', '@.', r'z\w', r'Z\w', 'q',
         ]
+    __rules__ += [r'X\w\w\w', '4', '6', 'M']
     for i, func in enumerate(__rules__):
         __rules__[i] = func[0]+func[1:].replace(r'\w', '[a-zA-Z0-9]')
     ruleregex = '|'.join(['%s%s' % (re.escape(a[0]), a[1:]) for a in __rules__])
@@ -52,9 +53,40 @@ FUNCTS['z'] = lambda x, i: x[0]*i36(i)+x
 FUNCTS['Z'] = lambda x, i: x+x[-1]*i36(i)
 FUNCTS['q'] = lambda x, i: ''.join([a*2 for a in x])
 
+__memorized__ = ['']
+
+
+def extract_memory(string, args):
+    ''''''
+    pos, length, i = map(i36, args)
+    string = list(string)
+    string.insert(i, __memorized__[0][pos:pos+length])
+    return ''.join(string)
+FUNCTS['X'] = extract_memory
+FUNCTS['4'] = lambda x, i: x+__memorized__[0]
+FUNCTS['6'] = lambda x, i: __memorized__[0]+x
+
+
+def memorize(string, _):
+    __memorized__[0] = string
+    return string
+FUNCTS['M'] = memorize
+
 
 class RuleEngine(object):
     '''
+    Rules must be sequence of strings which are Hashcat style rules. Invalid
+    rules will be ignored, and won't raise exceptions. Whitespace will
+    ignored if it is between individual functions in a rule, but if
+    whitespace is put where the arguments would be then the whitespace will be
+    tret as if it was the argument.
+    e.g. '$l' will append letter 'l', but '$ l' will append ' ' and then
+    lowercase the whole string.
+    >>> for i in RuleEngine(['$l $y', '$ l$y']).apply('PASSWORD'):
+    ...        print(i)
+    PASSWORDly
+    password y
+
     Initiate with the rules you want to apply and then call .apply for each
     string you want to apply the rules to.
     >>> engine=RuleEngine([':', '$1', 'ss$'])
@@ -69,11 +101,16 @@ class RuleEngine(object):
     princess1
     prince$$
     '''
-    def __init__(self, rules):
+    def __init__(self, rules=None):
+        if rules is None:
+            rules = [':']
         self.rules = tuple(map(__ruleregex__.findall, rules))
 
     def apply(self, string):
-        '''Apply saved rules to given string.'''
+        '''
+        Apply saved rules to given string. It return a generator object so you
+        can't use list indexes on it.
+        '''
         for rule in self.rules:
             word = string
             for function in rule:
