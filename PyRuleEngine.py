@@ -82,7 +82,8 @@ class RuleEngine(object):
     whitespace is put where the arguments would be then the whitespace will be
     tret as if it was the argument.
     e.g. '$l' will append letter 'l', but '$ l' will append ' ' and then
-    lowercase the whole string.
+    lowercase the whole string. (Below I added an extra append 'y' just to make
+    it clear that a space was added)
     >>> for i in RuleEngine(['$l $y', '$ l$y']).apply('PASSWORD'):
     ...        print(i)
     PASSWORDly
