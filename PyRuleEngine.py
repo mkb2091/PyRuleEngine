@@ -84,7 +84,6 @@ class RuleEngine(object):
     e.g. '$l' will append letter 'l', but '$ l' will append ' ' and then
     lowercase the whole string. (Below I added an append 'y' just to make it
     clear that a space was added)
-    
     >>> for i in RuleEngine(['$l $y', '$ l$y']).apply('PASSWORD'):
     ...        print(i)
     PASSWORDly
