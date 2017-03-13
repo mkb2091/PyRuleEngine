@@ -78,12 +78,13 @@ class RuleEngine(object):
     '''
     Rules must be sequence of strings which are Hashcat style rules. Invalid
     rules will be ignored, and won't raise exceptions. Whitespace will
-    ignored if it is between individual functions in a rule, but if
-    whitespace is put where the arguments would be then the whitespace will be
-    tret as if it was the argument.
+    ignored if it is between individual functions in a rule, but if whitespace
+    is put where the arguments would be then the whitespace will be tret as if
+    it was the argument.
     e.g. '$l' will append letter 'l', but '$ l' will append ' ' and then
-    lowercase the whole string. (Below I added an extra append 'y' just to make
-    it clear that a space was added)
+    lowercase the whole string. (Below I added an append 'y' just to make it
+    clear that a space was added)
+    
     >>> for i in RuleEngine(['$l $y', '$ l$y']).apply('PASSWORD'):
     ...        print(i)
     PASSWORDly
@@ -111,8 +112,7 @@ class RuleEngine(object):
     def apply(self, string):
         '''
         Apply saved rules to given string. It return a generator object so you
-        can't use list indexes on it.
-        '''
+        can't use list indexes on it. '''
         for rule in self.rules:
             word = string
             for function in rule:

@@ -1,7 +1,6 @@
 '''
-Test whether rule engine has correct output for different rules as specified
-on https://hashcat.net/wiki/doku.php?id=rule_based_attack
-'''
+Test whether rule engine has correct output for different rules as specified on
+https://hashcat.net/wiki/doku.php?id=rule_based_attack '''
 import unittest
 from PyRuleEngine import RuleEngine
 RULEENGINE = RuleEngine()
