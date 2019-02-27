@@ -30,7 +30,10 @@ FUNCTS['u'] = lambda x, i: x.upper()
 FUNCTS['c'] = lambda x, i: x.capitalize()
 FUNCTS['C'] = lambda x, i: x.capitalize().swapcase()
 FUNCTS['t'] = lambda x, i: x.swapcase()
-FUNCTS['T'] = lambda x, i: x[0:i36(i)]+x[i36(i)].swapcase()+x[i36(i)+1:]
+def T(x, i):
+    number = i36(i)
+    return ''.join((x[:number], x[number].swapcase(), x[number + 1:]))
+FUNCTS['T'] = T
 FUNCTS['r'] = lambda x, i: x[::-1]
 FUNCTS['d'] = lambda x, i: x+x
 FUNCTS['p'] = lambda x, i: x*(i36(i)+1)
